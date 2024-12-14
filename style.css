@@ -1,0 +1,118 @@
+/* html reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}input,textarea,select,button{outline:none;border:none;font-family:inherit;}a {text-decoration: none; /* Removes underlines */color: inherit;/* Inherits color unless explicitly styled */}*,*::before,*::after{box-sizing:border-box;}
+@font-face {
+    font-family: 'Passion One';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(./Passion\ One.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
+    --bg-cor: #F7F8F4;
+    --prm-cor: #91cdff;
+    --sec-cor: #B8D4F0;
+    --font-cor: #222222;
+    --acn-cor: #6A9EC9;
+    --drk-bg-cor: var(--font-cor);
+    --drk-font-cor: var(--bg-cor);
+}
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--prm-cor);
+    font-family: "Passion One";
+    margin: 0;
+}
+main {
+    display: flex;
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 100%;
+    margin: 0rem;
+    flex-direction: column;
+}
+header {
+    z-index: 1;
+    position: fixed;
+    margin: 3rem;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    color: var(--drk-font-cor);
+    font-size: 6rem;
+}
+header span {
+    cursor: default;
+    line-height: 4rem;
+    text-shadow: -0.3rem 0.2rem 0rem var(--font-cor)
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2rem;
+    perspective: 100vw;
+    transform-style: preserve-3d;
+}
+main .container {
+    text-align: right;
+    transform-origin: right center;
+    transform-style: preserve-3d;
+    transform: rotateY(-40deg) rotateZ(0deg) rotateX(-10deg) translateZ(40px);
+    will-change: transform;
+    transition: transform 0.2s ease;
+}
+main a {
+    font-size: 10rem;
+    text-align: right !important;
+    color: var(--acn-cor);
+    text-shadow: 0.4rem 0.3rem 0rem var(--font-cor);
+    transition: color 0.2s ease;
+}
+main .container:has(a:hover) {
+    transform: rotateY(-30deg) rotateZ(0deg) rotateX(-15deg) translateZ(40px);
+}
+main .container a:hover {
+    cursor: pointer;
+    color: var(--drk-font-cor);
+}
+
+@media (max-width: 700px) {
+    header {
+        top: 0;
+        bottom: initial;
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 4rem;
+        background: var(--font-cor);
+        margin: 0;
+        width: 100%;
+    }
+    header span {
+        cursor: pointer;
+        line-height: 4rem;
+        text-shadow: none;
+    }
+    main {
+        padding: 2rem;
+        justify-content: flex-start;
+    }
+    main .container {
+        text-align: center;
+        transform: rotateY(0deg) rotateZ(0deg) rotateX(40deg) translateZ(0px);
+    }
+    main a {
+        font-size: 6rem;
+        text-shadow: 0rem 0.3rem 0rem var(--font-cor);
+    }
+    main .container:has(a:hover) {
+        transform: rotateY(0deg) rotateZ(0deg) rotateX(10deg) translateZ(0px);
+    }
+}
