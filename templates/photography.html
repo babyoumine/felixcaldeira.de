@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<style>
+    main {
+        max-width: calc(3 * 20rem + 4rem);
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    }
+    section.photo { 
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+    section.photo span {
+        font-size: 0.8rem;
+    }
+    section.photo img {
+        display: block;
+        aspect-ratio: 3 / 4; 
+        width: 100%;
+        object-fit: cover;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<section class="photo">
+    <img src="/static/images/_IMG5192.jpg" alt="">
+    <div>
+        <span>Paris - 17. November, 2022</span>
+    </div>
+</section>
+<section class="photo">
+    <img src="/static/images/_IMG4167.jpg" alt="">
+    <div>
+        <span>Lübeck - 17. April, 2022</span>
+    </div>
+</section>
+<section class="photo">
+    <img src="/static/images/_IMG2190.jpg" alt="">
+    <div>
+        <span>Lübeck - 14. Mai, 2021</span>
+    </div>
+</section>
+
+{% endblock content %}

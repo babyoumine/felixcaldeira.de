@@ -1,0 +1,131 @@
+/* html reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font-weight:400;vertical-align:baseline;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}input,textarea,select,button{outline:none;border:none;font-family:inherit;}a {text-decoration: none; /* Removes underlines */color: inherit;/* Inherits color unless explicitly styled */}*,*::before,*::after{box-sizing:border-box;}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter.ttf') format('truetype');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Source Sans';
+  src: url('../fonts/SourceSans3.ttf') format('truetype');
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter';
+}
+
+:root {
+    --background: #222;
+    --accent: #666;
+    --font: #fff;
+}
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Source Sans";
+    background: var(--background);
+    color: var(--font);
+    line-height: 1.4;
+    margin: 0;
+}
+header {
+    padding: 4rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+header a[href="/"] {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+header a[href="/"] i {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0.2rem 0rem;
+    border-radius: 0.5rem;
+    background-size: contain;
+    background-image: url("../favicon/apple-touch-icon.png");
+}
+header nav {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+}
+header nav a, header span {
+    border-bottom: 2px transparent solid;
+}
+header nav a:hover, header a[href="/"]:hover span, header nav a.active {
+    box-sizing: border-box;
+    border-bottom: 2px var(--font) solid;
+}
+header a, header span {
+    font-family: 'Inter';
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+main {
+    flex: 1;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    width: 100%;
+}
+main > img {
+    width: 100%;
+}
+main a {
+    text-decoration: underline;
+}
+main hr {
+    width: 2rem;
+    margin: 0.2rem 0rem;
+    border-radius: 1px;
+    border-width: 1px;
+    border-color: var(--accent);
+    border-style: solid;
+}
+main h1 {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+main h1.display {
+    font-weight: 400;
+    font-size: 2rem;
+}
+footer {
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+@media (max-width: 800px) {
+    header a[href="/"] span {
+        display: none;
+    }
+    header nav {
+        gap: 0.8rem;
+    }
+    header, main {
+        padding: 2rem;
+    }
+    main h1.display {
+        font-size: 1.6rem;
+    }
+}
+@media (max-width: 500px) {
+    header {
+        flex-direction: column;
+    }
+}
