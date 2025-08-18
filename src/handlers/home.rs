@@ -5,11 +5,24 @@ use axum::{
 };
 use tera::Context;
 use crate::handlers::AppState;
-use crate::models::{Project, Photo};
+use crate::models::{Project, Photo, User};
 
 pub async fn index(State(state): State<AppState>) -> Result<Html<String>, StatusCode> {
     let mut context = Context::new();
     
+    let user = User::find_by_id(&state.db, 1)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    // if user.is_none() {
+    //     let user_id = User::create(&state.db, "admin", "example@example.com", "password")
+    //         .await
+    //         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    //     println!("{:?}", user_id);
+    // } else {
+    //     println!("User already created");
+    // }
+
     // Get recent projects and photos
     let recent_projects = Project::find_recent(&state.db, 3)
         .await

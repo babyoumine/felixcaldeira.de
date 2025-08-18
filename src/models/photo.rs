@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use chrono::{NaiveDateTime, Utc};
+use chrono::{NaiveDateTime};
 use sqlx::FromRow;
 
 #[derive(Debug, Serialize, Deserialize, FromRow)]
@@ -7,7 +7,6 @@ pub struct Photo {
     pub id: u32,
     pub title: String,
     pub description: Option<String>,
-    pub image_url: String,
     pub location: Option<String>,
     pub taken_at: Option<NaiveDateTime>,
     pub published: Option<i8>,

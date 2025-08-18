@@ -8,6 +8,9 @@ pub mod projects;
 pub mod photography;
 pub mod contact;
 pub mod admin;
+pub mod error;
+
+pub use error::{AppError, handler_404};
 
 #[derive(Clone)]
 pub struct AppState {

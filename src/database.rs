@@ -1,4 +1,4 @@
-use sqlx::{MySqlPool, mysql::MySqlPoolOptions};
+use sqlx::{MySqlPool, mysql::MySqlPoolOptions, migrate::MigrateError};
 
 pub async fn setup(database_url: &str) -> Result<MySqlPool, sqlx::Error> {
     let pool = MySqlPoolOptions::new()
@@ -9,6 +9,6 @@ pub async fn setup(database_url: &str) -> Result<MySqlPool, sqlx::Error> {
     Ok(pool)
 }
 
-// pub async fn migrate(pool: &MySqlPool) -> Result<(), sqlx::Error> {
-//     sqlx::migrate!("./migrations").run(pool).await
-// }
+pub async fn migrate(pool: &MySqlPool) -> Result<(), MigrateError> {
+    sqlx::migrate!("./migrations").run(pool).await
+}

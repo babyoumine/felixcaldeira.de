@@ -18,7 +18,7 @@ pub async fn index(State(state): State<AppState>) -> Result<Html<String>, Status
     context.insert("page_title", "Photography");
     
     let html = state.tera
-        .render("photography.html", &context)
+        .render("photos.html", &context)
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
     
     Ok(Html(html))

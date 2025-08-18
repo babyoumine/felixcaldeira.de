@@ -1,4 +1,229 @@
 {% extends "base.html" %}
 
+{% block head %}
+<style>
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+}
+
+.admin-menu {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-menu a {
+    padding: 1rem;
+    text-decoration: none;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.admin-menu a.active,
+.admin-menu a:hover {
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.recent-items h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #007bff;
+}
+
+.item h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.item p {
+    margin: 0 0 1rem 0;
+    color: #666;
+    line-height: 1.4;
+}
+
+.item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.status.published {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.draft {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.date {
+    color: #999;
+}
+
+@media (max-width: 768px) {
+    .dashboard-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .admin-menu {
+        flex-wrap: wrap;
+    }
+}
+</style>
+{% endblock head %}
+
 {% block content %}
+<h1>Dashboard</h1>
+<hr>
+<div class="admin-nav">
+    <span>Welcome, !</span>
+    <form method="post" action="/admin/logout" style="display: inline;">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<nav class="admin-menu">
+    <a href="/admin" class="active">Dashboard</a>
+    <a href="/admin/projects">Manage Projects</a>
+    <a href="/admin/photos">Manage Photos</a>
+</nav>
+
+<section class="recent-items">
+    <h2>Recent Projects ({{ recent_projects | length }})</h2>
+    {% if recent_projects %}
+    <div class="items-list">
+        {% for project in recent_projects %}
+        <div class="item">
+            <h4>{{ project.title }}</h4>
+            <p>{{ project.description | truncate(length=100) }}</p>
+            <div class="item-meta">
+                <span class="status {% if project.published %}published{% else %}draft{% endif %}">
+                    {% if project.published %}Published{% else %}Draft{% endif %}
+                </span>
+                <span class="date">{{ project.created_at | date(format="%Y-%m-%d") }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No projects yet.</p>
+    {% endif %}
+</section>
+
+<section class="recent-items">
+    <h2>Recent Photos ({{ recent_photos | length }})</h2>
+    {% if recent_photos %}
+    <div class="items-list">
+        {% for photo in recent_photos %}
+        <img src="/uploads/photography/{{ photo.id }}.jpg" alt="">
+        <div class="item">
+            <h4>{{ photo.title }}</h4>
+            {% if photo.description %}
+            <p>{{ photo.description | truncate(length=100) }}</p>
+            {% endif %}
+            <div class="item-meta">
+                <span class="status {% if photo.published %}published{% else %}draft{% endif %}">
+                    {% if photo.published %}Published{% else %}Draft{% endif %}
+                </span>
+                <span class="date">{{ photo.taken_at | date(format="%Y-%m-%d") }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No photos yet.</p>
+    {% endif %}
+</section>
 {% endblock content %}

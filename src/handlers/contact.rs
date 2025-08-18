@@ -8,7 +8,7 @@ use crate::handlers::AppState;
 
 pub async fn index(State(state): State<AppState>) -> Result<Html<String>, StatusCode> {
     let mut context = Context::new();
-    context.insert("page_title", "Contact");
+    context.insert("page_title", "Kontakt");
     
     let html = state.tera
         .render("contact.html", &context)
