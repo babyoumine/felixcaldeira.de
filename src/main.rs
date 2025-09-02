@@ -1,3 +1,4 @@
+// main.rs
 use axum::{
     routing::{get, post},
     Router,
@@ -14,7 +15,7 @@ mod handlers;
 mod midware;
 
 use config::Config;
-use handlers::{AppError, handler_404};
+use handlers::{AppState, AppError, handler_404};
 use midware::error::error_handler;
 
 #[tokio::main]
@@ -32,7 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let tera = tera::Tera::new(&format!("{}/**/*.html", config.template_dir))?;
     
     // Create shared state
-    let app_state = handlers::AppState {
+    let state = handlers::AppState {
         db,
         tera,
         config: config.clone(),
@@ -60,7 +61,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .route("/projects", get(handlers::admin::projects_list))
                 .route("/photos", get(handlers::admin::photos_list))
                 .layer(middleware::from_fn_with_state(
-                    app_state.clone(),
+                    state.clone(),
                     midware::auth::require_auth,
                 ))
             )
@@ -71,18 +72,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .nest_service("/uploads", ServeDir::new(&config.upload_dir))
         
         // In your router:
-        .layer(middleware::from_fn_with_state(app_state.clone(), error_handler))
+        .layer(middleware::from_fn_with_state(state.clone(), error_handler))
         .fallback(handler_404)
 
         // Middleware
         // Global middleware
         .layer(middleware::from_fn_with_state(
-            app_state.clone(),
+            state.clone(),
             midware::auth::optional_auth,
         ))
         .layer(CorsLayer::permissive())
         .layer(DefaultBodyLimit::max(10 * 1024 * 1024)) // 10MB max
-        .with_state(app_state);
+        .with_state(state);
     
     // Start server
     let addr = SocketAddr::from(([127, 0, 0, 1], config.port));

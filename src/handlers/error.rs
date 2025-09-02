@@ -1,22 +1,38 @@
 use axum::{
-    middleware::Next,
     response::{Html, IntoResponse, Response},
-    extract::{Request, State},
+    extract::{State},
     http::StatusCode,
 };
-use crate::handlers::{AppState};
+use serde::Serialize;
 
-// Simple error type
+// Enhanced error type
 #[derive(Debug)]
 pub enum AppError {
+    Database(sqlx::Error),
+    Template(tera::Error),
     NotFound,
+    Unauthorized,
+    BadRequest(String),
     Internal(String),
 }
 
-pub async fn handler_404(State(state): State<AppState>) -> Html<String> {
+impl std::fmt::Display for AppError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            AppError::Database(e) => write!(f, "Database error: {}", e),
+            AppError::Template(e) => write!(f, "Template error: {:#?}", e),
+            AppError::NotFound => write!(f, "Page not found"),
+            AppError::Unauthorized => write!(f, "Unauthorized access"),
+            AppError::BadRequest(msg) => write!(f, "Bad request: {}", msg),
+            AppError::Internal(msg) => write!(f, "Internal error: {}", msg),
+        }
+    }
+}
+
+pub async fn handler_404(State(state): State<crate::handlers::AppState>) -> Html<String> {
     let mut context = tera::Context::new();
     context.insert("status_code", &404);
-    context.insert("message", &"Page not found");
+    context.insert("error_message", &"Page not found");
     
     let html = state.tera
         .render("error.html", &context)
