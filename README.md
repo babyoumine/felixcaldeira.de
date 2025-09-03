@@ -5,7 +5,7 @@ sudo apt install mysql-server mysql-client libmysqlclient-dev
 sudo systemctl start mysql
 sudo systemctl enable mysql
 
-### Create .env file with your configuration
+### Create .env fil with your configuration
 cp env.example .env
 
 ### Install sqlx-cli for migrations
@@ -19,11 +19,14 @@ cargo run
 
 ### Production
 cargo build --release
-./target/release/portfolio-backend
+cp ./target/release/portfolio-backend .
 
 ### To run it as a service
 - Create portfolio-backend.service file into /lib/systemd/system
 - Move executable into folder that is noted in service file alongside of static, templates, uploads and .env file
+
+mkdir -p ~/felixcaldeira.de
+cp -r ./target/release/portfolio-backend ./.env ./static ./uploads ./templates ~/felixcaldeira.de/
 
 sudo systemctl daemon-reload
 sudo systemctl start portfolio-backend
