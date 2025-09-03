@@ -14,3 +14,15 @@ sqlx migrate run --database-url "mysql://portfolio_user:password@localhost/portf
 
 # Build and run
 cargo run
+
+# Production
+cargo build --release
+./target/release/portfolio-backend
+
+# To run it as a service
+- Create portfolio-backend.service file into /lib/systemd/system
+- Move executable into folder that is noted in service file alongside of static, templates, uploads and .env file
+
+sudo systemctl daemon-reload
+sudo systemctl start portfolio-backend
+sudo systemctl enable portfolio-backend
